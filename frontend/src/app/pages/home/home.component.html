@@ -3,7 +3,7 @@
     <div class="mb-6">
       <button
         class="bg-[#E50814] w-50 h-10 rounded-xs text-base text-white font-medium cursor-pointer"
-        (click)="showCreateModal = true"
+        (click)="openCreateModal()"
       >
         Add Movie
       </button>
@@ -49,7 +49,7 @@
               <!-- Edit Button -->
               <button
                 class="w-9 h-9"
-                (click)="editMovie(movie.id); $event.stopPropagation()"
+                (click)="editMovie(movie); $event.stopPropagation()"
               >
                 <svg
                   class="duration-200 cursor-pointer fill-white opacity-50 transition-all hover:fill-white hover:opacity-100 hover:scale-110"
@@ -197,17 +197,17 @@
   <!-- Create Movie Modal -->
   <div
     class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/50 transition-opacity duration-300"
-    *ngIf="showCreateModal"
+    *ngIf="showMovieFormModal"
   >
     <div
       class="flex justify-center items-center w-fit h-110 container mx-auto bg-[#141414] text-white rounded-2xl"
     >
       <div class="w-full text-white px-2 mx-10 max-w-md">
         <h2 class="text-left font-bold pb-5" style="font-size: 30px">
-          Add Movie
+          {{ isEditMode ? "Edit Movie" : "Add Movie" }}
         </h2>
         <form
-          (ngSubmit)="createMovie()"
+          (ngSubmit)="submitMovieForm()"
           #movieForm="ngForm"
           enctype="multipart/form-data"
           class="space-y-3"
@@ -215,14 +215,14 @@
           <input
             name="title"
             type="text"
-            [(ngModel)]="newMovie.title"
+            [(ngModel)]="movieFormData.title"
             required
             placeholder="Title"
             class="w-full bg-black px-4 py-3 rounded border"
           />
           <textarea
             name="description"
-            [(ngModel)]="newMovie.description"
+            [(ngModel)]="movieFormData.description"
             required
             placeholder="Description"
             class="w-full bg-black px-4 py-3 rounded border"
@@ -238,11 +238,11 @@
             type="submit"
             class="w-full bg-[#E50814] text-white cursor-pointer py-3 font-medium duration-200 rounded mb-3 hover:bg-[#C11119]"
           >
-            Add
+            {{ isEditMode ? "Update" : "Add" }}
           </button>
           <button
             type="submit"
-            (click)="showCreateModal = false"
+            (click)="showMovieFormModal = false"
             class="w-full bg-[#6d6d6e] text-white cursor-pointer py-3 font-medium duration-200 rounded hover:bg-[#6d6d6e] hover:opacity-70"
           >
             Cancel
@@ -251,44 +251,4 @@
       </div>
     </div>
   </div>
-
-  <section>
-    <div
-      class="flex justify-center items-center w-fit h-110 container mx-auto bg-[#141414] text-white rounded-2xl"
-    >
-      <div class="w-full text-white px-2 mx-10 max-w-md">
-        <h2 class="text-left font-bold pb-5" style="font-size: 30px">
-          Edit Movie
-        </h2>
-        <form class="space-y-3">
-          <input
-            type="text"
-            placeholder="Title"
-            class="w-full bg-black px-4 py-3 rounded border"
-          />
-          <textarea
-            placeholder="Description"
-            class="w-full bg-black px-4 py-3 rounded border"
-          ></textarea>
-          <input
-            type="file"
-            placeholder="Video"
-            class="w-full bg-black px-4 py-3 rounded border"
-          />
-          <button
-            type="submit"
-            class="w-full bg-[#E50814] text-white cursor-pointer py-3 font-medium duration-200 rounded mb-3 hover:bg-[#C11119]"
-          >
-            Save
-          </button>
-          <button
-            type="submit"
-            class="w-full bg-[#6d6d6e] text-white cursor-pointer py-3 font-medium duration-200 rounded hover:bg-[#6d6d6e] hover:opacity-70"
-          >
-            Cancel
-          </button>
-        </form>
-      </div>
-    </div>
-  </section>
 </div>

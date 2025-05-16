@@ -15,9 +15,10 @@ export class HomeComponent {
   movies: any[] = [];
   isLoading: boolean = true;
   showModal: boolean = false;
-  showCreateModal: boolean = false;
-  showEditModaL: boolean = false;
-  newMovie = {
+  showMovieFormModal: boolean = false;
+  isEditMode = false;
+  movieFormData = {
+    id: null as number | null,
     title: '',
     description: '',
     video_file: null as File | null,
@@ -36,7 +37,7 @@ export class HomeComponent {
   handleFileInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
-      this.newMovie.video_file = input.files[0];
+      this.movieFormData.video_file = input.files[0];
     }
   }
 
@@ -73,42 +74,55 @@ export class HomeComponent {
     document.body.style.overflow = 'hidden';
   }
 
-  createMovie(): void {
-    if (
-      !this.newMovie.title ||
-      !this.newMovie.description ||
-      !this.newMovie.video_file
-    ) {
-      alert('Please fill in all fields.');
-      return;
-    }
-
+  submitMovieForm(): void {
     const formData = new FormData();
-    formData.append('title', this.newMovie.title);
-    formData.append('description', this.newMovie.description);
-    formData.append('video_file', this.newMovie.video_file);
+    formData.append('title', this.movieFormData.title);
+    formData.append('description', this.movieFormData.description);
 
-    this.movieService.createMovie(formData).subscribe({
-      next: () => {
-        alert('Movie added!');
-        this.getMovies();
-        this.showCreateModal = false;
+    if (this.movieFormData.video_file)
+      formData.append('video', this.movieFormData.video_file);
 
-        // Reset form
-        this.newMovie = {
-          title: '',
-          description: '',
-          video_file: null,
-        };
-      },
-      error: (err) => {
-        console.error('Error creating movie:', err);
-      },
-    });
+    if (this.isEditMode && this.movieFormData.id !== null) {
+      this.movieService.updateMovie(this.movieFormData.id, formData).subscribe({
+        next: () => {
+          alert('Movie updated!');
+          this.getMovies();
+          this.showMovieFormModal = false;
+        },
+        error: (err) => console.error(err),
+      });
+    } else {
+      this.movieService.createMovie(formData).subscribe({
+        next: () => {
+          alert('Movie created!');
+          this.getMovies();
+          this.showMovieFormModal = false;
+        },
+        error: (err) => console.error(err),
+      });
+    }
   }
 
-  editMovie(id: number) {
-    console.log('edited movie: ', id);
+  openCreateModal(): void {
+    this.isEditMode = false;
+    this.movieFormData = {
+      id: null,
+      title: '',
+      description: '',
+      video_file: null,
+    };
+    this.showMovieFormModal = true;
+  }
+
+  editMovie(movie: any) {
+    this.isEditMode = true;
+    this.movieFormData = {
+      id: movie.id,
+      title: movie.title,
+      description: movie.description,
+      video_file: null,
+    };
+    this.showMovieFormModal = true;
   }
 
   deleteMovie(id: number) {

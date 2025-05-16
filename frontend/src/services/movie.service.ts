@@ -25,6 +25,11 @@ export class MovieService {
     return this.httpClient.post(this.apiUrl, formData);
   }
 
+  // Update specific movie
+  updateMovie(id: number, movie: any): Observable<any> {
+    return this.httpClient.put(`${this.apiUrl}${id}/`, movie);
+  }
+
   // Delete a movie by ID
   deleteMovie(id: number): Observable<any> {
     return this.httpClient.delete(`${this.apiUrl}${id}/`);
