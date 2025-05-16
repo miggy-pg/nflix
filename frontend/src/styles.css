@@ -1,1 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+
+* {
+  font-family: "DM Sans";
+  font-size: 18px;
+  box-sizing: border-box;
+  list-style-type: none;
+}
+
+/* bg = grey 850
+    videobg = grey900
+    videobg-active = #fff
+
+*/
+body {
+  background-color: #232323;
+}
+
+.cb {
+  border: 1px solid red;
+}
+
+.cg {
+  border: 1px solid green;
+}

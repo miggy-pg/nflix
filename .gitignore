@@ -5,6 +5,7 @@ __pycache__/
 # === Django ===
 media/
 staticfiles/
+db.sqlite3
 
 # === Environment Files ===
 .env

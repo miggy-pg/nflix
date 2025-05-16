@@ -1,0 +1,257 @@
+<div>
+  <section class="mx-auto max-w-4xl w-full h-full my-20 rounded">
+    <div class="mb-6">
+      <button
+        class="bg-[#E50814] w-50 h-10 rounded-xs text-base text-white font-medium cursor-pointer"
+      >
+        Add Movie
+      </button>
+    </div>
+
+    <div *ngIf="!isLoading">
+      <div *ngFor="let movie of movies; let i = index">
+        <div
+          class="w-full h-full grid p-8 mb-5 bg-[#141414] rounded-lg cursor-pointer transition-all hover:bg-[#3a3a3a]"
+        >
+          <!-- Movie Image & Description -->
+          <div class="grid grid-cols-9 gap-5">
+            <div class="col-span-1 flex justify-center items-center">
+              <p class="text-[#dcdcdc] ml-5" style="font-size: 40px">
+                {{ i + 1 }}
+              </p>
+            </div>
+            <div class="col-span-2 relative w-full h-28">
+              <img
+                class="absolute inset-0 w-full h-full object-cover rounded"
+                src="http://creativereview.imgix.net/content/uploads/2024/12/AlienRomulus-scaled.jpg?auto=compress,format&q=60&w=1728&h=2560"
+              />
+            </div>
+            <div class="col-span-5">
+              <p class="text-base text-white mb-3">{{ movie.title }}</p>
+              <p class="text-sm text-[#d2d2d2]">
+                {{ movie.description }}
+              </p>
+            </div>
+
+            <!-- Movie Title & Action Events -->
+            <div class="flex items-center gap-2">
+              <!-- Edit Button -->
+              <button class="w-9 h-9">
+                <svg
+                  class="duration-200 cursor-pointer fill-white opacity-50 transition-all hover:fill-white hover:opacity-100 hover:scale-110"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path
+                      d="M12.5,10.2071068 L8,14.7071068 L8,16 L9.29289322,16 L13.7928932,11.5 L12.5,10.2071068 Z M13.2071068,9.5 L14.5,10.7928932 L15.7928932,9.5 L14.5,8.20710678 L13.2071068,9.5 Z M12,22 C6.4771525,22 2,17.5228475 2,12 C2,6.4771525 6.4771525,2 12,2 C17.5228475,2 22,6.4771525 22,12 C22,17.5228475 17.5228475,22 12,22 Z M12,21 C16.9705627,21 21,16.9705627 21,12 C21,7.02943725 16.9705627,3 12,3 C7.02943725,3 3,7.02943725 3,12 C3,16.9705627 7.02943725,21 12,21 Z M14.8535534,7.14644661 L16.8535534,9.14644661 C17.0488155,9.34170876 17.0488155,9.65829124 16.8535534,9.85355339 L9.85355339,16.8535534 C9.7597852,16.9473216 9.63260824,17 9.5,17 L7.5,17 C7.22385763,17 7,16.7761424 7,16.5 L7,14.5 C7,14.3673918 7.05267842,14.2402148 7.14644661,14.1464466 L14.1464466,7.14644661 C14.3417088,6.95118446 14.6582912,6.95118446 14.8535534,7.14644661 Z"
+                    ></path>
+                  </g>
+                </svg>
+              </button>
+
+              <!-- Delete Button -->
+              <button class="w-9 h-9">
+                <svg
+                  viewBox="0 0 1024 1024"
+                  class="duration-200 cursor-pointer fill-white opacity-50 transition-all hover:fill-white hover:opacity-100 hover:scale-110"
+                  version="1.1"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    <path
+                      d="M512 897.6c-108 0-209.6-42.4-285.6-118.4-76-76-118.4-177.6-118.4-285.6 0-108 42.4-209.6 118.4-285.6 76-76 177.6-118.4 285.6-118.4 108 0 209.6 42.4 285.6 118.4 157.6 157.6 157.6 413.6 0 571.2-76 76-177.6 118.4-285.6 118.4z m0-760c-95.2 0-184.8 36.8-252 104-67.2 67.2-104 156.8-104 252s36.8 184.8 104 252c67.2 67.2 156.8 104 252 104 95.2 0 184.8-36.8 252-104 139.2-139.2 139.2-364.8 0-504-67.2-67.2-156.8-104-252-104z"
+                      fill=""
+                    ></path>
+                    <path
+                      d="M707.872 329.392L348.096 689.16l-31.68-31.68 359.776-359.768z"
+                      fill=""
+                    ></path>
+                    <path d="M328 340.8l32-31.2 348 348-32 32z" fill=""></path>
+                  </g>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Movie Preview -->
+  <section>
+    <div class="relative h-[80vh] w-full">
+      <button
+        (click)="showAlert()"
+        class="relative flex items-center p-4 transition-color z-1 cursor-pointer"
+      >
+        <svg
+          class="w-6 h-6"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M9.5 4L2 11.8125L9.5 19.625"
+            stroke="white"
+            stroke-width="1.875"
+            stroke-linecap="square"
+          />
+          <line
+            x1="22"
+            y1="11.8125"
+            x2="2.625"
+            y2="11.8125"
+            stroke="white"
+            stroke-width="1.875"
+          />
+        </svg>
+      </button>
+      <div class="absolute inset-0">
+        <!-- <video controls autoplay muted loop>
+          <source
+            src="/backend/media/Interstellar_-_Trailer_-_Official_Warner_Bros._UK_-_Warner_Bros._UK__Ireland_1080p_h264.mp4"
+            type="video/mp4"
+          />
+          Your browser does not support the video tag.
+        </video> -->
+        <iframe
+          class="w-full h-full object-cover"
+          src="https://www.youtube.com/embed/zSWdZVtXT7E?si=YBBtHbjQtEsWv09H?autoplay=1&mute=1"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+          allow="autoplay; encrypted-media"
+        ></iframe>
+
+        <div></div>
+      </div>
+
+      <div class="relative flex items-center h-full mx-20">
+        <div class="w-full px-4">
+          <h1 class="mb-4 font-bold text-white" style="font-size: 48px">
+            Interstellar
+          </h1>
+          <p class="mb-8 text-xl text-white">
+            A team of explorers travel through a wormhole in space in an attempt
+            to ensure humanity's survival.
+          </p>
+
+          <div class="flex space-x-4">
+            <button
+              class="w-30 px-8 py-2 flex items-center justify-center gap-3 text-black bg-white rounded cursor-pointer duration-200 hover:bg-white/90"
+            >
+              <svg
+                width="16"
+                height="18"
+                viewBox="0 0 16 18"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M15.3826 8.04294C16.1554 8.447 16.1554 9.553 15.3826 9.95706L1.58091 17.1736C0.861846 17.5496 0.0004887 17.028 0.00048868 16.2166L0.000488503 9L0.000488325 1.78343C0.000488305 0.972001 0.861847 0.450384 1.58091 0.826367L15.3826 8.04294Z"
+                  fill="black"
+                />
+              </svg>
+              Play
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div
+      class="flex justify-center items-center w-fit h-110 container mx-auto bg-[#141414] text-white rounded-2xl"
+    >
+      <div class="w-full text-white px-2 mx-10 max-w-md">
+        <h2 class="text-left font-bold pb-5" style="font-size: 30px">
+          Add Movie
+        </h2>
+        <form class="space-y-3">
+          <input
+            type="text"
+            placeholder="Title"
+            class="w-full bg-black px-4 py-3 rounded border"
+          />
+          <textarea
+            placeholder="Description"
+            class="w-full bg-black px-4 py-3 rounded border"
+          ></textarea>
+          <input
+            type="file"
+            placeholder="Video"
+            class="w-full bg-black px-4 py-3 rounded border"
+          />
+          <button
+            type="submit"
+            class="w-full bg-[#E50814] text-white cursor-pointer py-3 font-medium duration-200 rounded mb-3 hover:bg-[#C11119]"
+          >
+            Save
+          </button>
+          <button
+            type="submit"
+            class="w-full bg-[#6d6d6e] text-white cursor-pointer py-3 font-medium duration-200 rounded hover:bg-[#6d6d6e] hover:opacity-70"
+          >
+            Cancel
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div
+      class="flex justify-center items-center w-fit h-110 container mx-auto bg-[#141414] text-white rounded-2xl"
+    >
+      <div class="w-full text-white px-2 mx-10 max-w-md">
+        <h2 class="text-left font-bold pb-5" style="font-size: 30px">
+          Edit Movie
+        </h2>
+        <form class="space-y-3">
+          <input
+            type="text"
+            placeholder="Title"
+            class="w-full bg-black px-4 py-3 rounded border"
+          />
+          <textarea
+            placeholder="Description"
+            class="w-full bg-black px-4 py-3 rounded border"
+          ></textarea>
+          <input
+            type="file"
+            placeholder="Video"
+            class="w-full bg-black px-4 py-3 rounded border"
+          />
+          <button
+            type="submit"
+            class="w-full bg-[#E50814] text-white cursor-pointer py-3 font-medium duration-200 rounded mb-3 hover:bg-[#C11119]"
+          >
+            Save
+          </button>
+          <button
+            type="submit"
+            class="w-full bg-[#6d6d6e] text-white cursor-pointer py-3 font-medium duration-200 rounded hover:bg-[#6d6d6e] hover:opacity-70"
+          >
+            Cancel
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+</div>
