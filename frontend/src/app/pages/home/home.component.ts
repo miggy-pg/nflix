@@ -23,6 +23,10 @@ export class HomeComponent {
     this.getMovies();
   }
 
+  getImagePath(imageName: string) {
+    return 'assets/img/' + imageName;
+  }
+
   getMovies(): void {
     this.movieService.getMovies().subscribe({
       next: (movies) => {
@@ -34,14 +38,6 @@ export class HomeComponent {
         this.isLoading = false;
       },
     });
-  }
-
-  showAlert() {
-    alert('test');
-  }
-
-  getImagePath(imageName: string) {
-    return 'assets/img/' + imageName;
   }
 
   onSelectMovie(id: number): void {
@@ -58,7 +54,17 @@ export class HomeComponent {
     document.body.style.overflow = 'hidden';
   }
 
-  closeBanner(): void {
+  editMovie(id: number) {
+    console.log('deleted movie: ', id);
+  }
+
+  deleteMovie(id: number) {
+    console.log('deleted: ', id);
+    // TODO: Add toast for confirmation
+    return this.movieService.deleteMovie(id).subscribe();
+  }
+
+  closeModal(): void {
     this.showModal = false;
     this.selectedMovie = null;
     document.body.style.overflow = '';

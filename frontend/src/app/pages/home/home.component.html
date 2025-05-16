@@ -46,7 +46,10 @@
             <!-- Movie Title & Action Events -->
             <div class="flex items-center gap-2">
               <!-- Edit Button -->
-              <button class="w-9 h-9">
+              <button
+                class="w-9 h-9"
+                (click)="editMovie(movie.id); $event.stopPropagation()"
+              >
                 <svg
                   class="duration-200 cursor-pointer fill-white opacity-50 transition-all hover:fill-white hover:opacity-100 hover:scale-110"
                   viewBox="0 0 24 24"
@@ -67,7 +70,10 @@
               </button>
 
               <!-- Delete Button -->
-              <button class="w-9 h-9">
+              <button
+                class="w-9 h-9"
+                (click)="deleteMovie(movie.id); $event.stopPropagation()"
+              >
                 <svg
                   viewBox="0 0 1024 1024"
                   class="duration-200 cursor-pointer fill-white opacity-50 transition-all hover:fill-white hover:opacity-100 hover:scale-110"
@@ -107,7 +113,7 @@
   >
     <div class="relative h-[80vh] w-full">
       <button
-        (click)="closeBanner()"
+        (click)="closeModal()"
         class="relative flex items-center p-4 transition-color z-1 cursor-pointer"
       >
         <svg

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class MovieService {
-  private apiUrl = 'http://localhost:8000/movies/';
+  private apiUrl = 'http://localhost:8000/movies';
 
   constructor(private httpClient: HttpClient) {}
 
@@ -17,6 +17,11 @@ export class MovieService {
 
   // Get specific movie by ID
   getMovie(id: number): Observable<any> {
-    return this.httpClient.get(`${this.apiUrl}${id}`);
+    return this.httpClient.get(`${this.apiUrl}/${id}`);
+  }
+
+  // Delete a movie by ID
+  deleteMovie(id: number): Observable<any> {
+    return this.httpClient.delete(`${this.apiUrl}/${id}/`);
   }
 }
