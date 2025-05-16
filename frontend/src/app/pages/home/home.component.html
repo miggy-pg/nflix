@@ -18,7 +18,7 @@
     <div *ngIf="!isLoading">
       <div
         *ngFor="let movie of movies; let i = index"
-        (click)="onSelectMovie(movie)"
+        (click)="onSelectMovie(movie.id)"
       >
         <div
           class="w-full h-full grid p-8 mb-5 bg-[#141414] rounded-lg cursor-pointer transition-transform hover:scale-102 hover:bg-[#3a3a3a]"
