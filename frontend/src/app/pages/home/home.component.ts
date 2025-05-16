@@ -3,18 +3,23 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { MovieService } from '../../../services/movie.service';
+import { ToastService } from '../../../services/toast.service';
+import { SpinnerComponent } from '../../../shared/spinner/spinner.component';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, SpinnerComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
+  toastVisible = false;
+  toastMessage = '';
+  toastType: 'success' | 'error' | 'info' = 'success';
   selectedMovie: any = null;
   movies: any[] = [];
   isLoading: boolean = true;
-  showModal: boolean = false;
+  showMovieDetailModal: boolean = false;
   showMovieFormModal: boolean = false;
   isEditMode = false;
   movieFormData = {
@@ -24,10 +29,17 @@ export class HomeComponent {
     video_file: null as File | null,
   };
 
-  constructor(private movieService: MovieService) {}
+  constructor(
+    private movieService: MovieService,
+    public toastService: ToastService
+  ) {}
 
   ngOnInit(): void {
     this.getMovies();
+  }
+
+  showToast() {
+    this.toastService.add('This is a toast message.');
   }
 
   getImagePath(imageName: string): string {
@@ -42,7 +54,7 @@ export class HomeComponent {
   }
 
   closeModal(): void {
-    this.showModal = false;
+    this.showMovieDetailModal = false;
     this.selectedMovie = null;
     document.body.style.overflow = '';
   }
@@ -70,7 +82,7 @@ export class HomeComponent {
         // this.isLoading = false;
       },
     });
-    this.showModal = true;
+    this.showMovieDetailModal = true;
     document.body.style.overflow = 'hidden';
   }
 
@@ -103,7 +115,7 @@ export class HomeComponent {
     }
   }
 
-  openCreateModal(): void {
+  createMovie(): void {
     this.isEditMode = false;
     this.movieFormData = {
       id: null,
@@ -114,7 +126,7 @@ export class HomeComponent {
     this.showMovieFormModal = true;
   }
 
-  editMovie(movie: any) {
+  editMovie(movie: any): void {
     this.isEditMode = true;
     this.movieFormData = {
       id: movie.id,
@@ -127,9 +139,9 @@ export class HomeComponent {
 
   deleteMovie(id: number) {
     console.log('deleted: ', id);
-    // TODO: Add toast for confirmation
     return this.movieService.deleteMovie(id).subscribe({
       next: () => {
+        this.showToast();
         this.getMovies();
       },
     });

@@ -3,7 +3,7 @@
     <div class="mb-6">
       <button
         class="bg-[#E50814] w-50 h-10 rounded-xs text-base text-white font-medium cursor-pointer"
-        (click)="openCreateModal()"
+        (click)="createMovie()"
       >
         Add Movie
       </button>
@@ -11,9 +11,7 @@
 
     <!-- Spinner -->
     <div *ngIf="isLoading">
-      <div class="" role="status">
-        <span class="">Loading...</span>
-      </div>
+      <app-spinner></app-spinner>
     </div>
 
     <div *ngIf="!isLoading">
@@ -109,7 +107,7 @@
 
   <!-- Movie Modal -->
   <section
-    *ngIf="showModal"
+    *ngIf="showMovieDetailModal"
     class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/70 transition-opacity duration-300"
   >
     <div class="relative h-[80vh] w-full">
