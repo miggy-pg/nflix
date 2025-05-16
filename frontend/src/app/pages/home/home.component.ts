@@ -12,6 +12,8 @@ import { MovieService } from '../../../services/movie.service';
 export class HomeComponent {
   editIcon = 'edit_icon.svg';
   deleteIcon = 'delete_icon.svg';
+  selectedMovie: any = null;
+  showModal: boolean = false;
   movies: any[] = [];
   isLoading: boolean = true;
 
@@ -40,5 +42,25 @@ export class HomeComponent {
 
   getImagePath(imageName: string) {
     return 'assets/img/' + imageName;
+  }
+
+  onSelectMovie(id: number): void {
+    this.movieService.getMovie(id).subscribe({
+      next: (movie) => {
+        this.selectedMovie = movie;
+      },
+      error: (err) => {
+        console.error('Error fetching movie:', err);
+        // this.isLoading = false;
+      },
+    });
+    this.showModal = true;
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeBanner(): void {
+    this.showModal = false;
+    this.selectedMovie = null;
+    document.body.style.overflow = '';
   }
 }

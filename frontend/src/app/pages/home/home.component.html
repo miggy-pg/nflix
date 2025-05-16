@@ -8,10 +8,20 @@
       </button>
     </div>
 
+    <!-- Spinner -->
+    <div *ngIf="isLoading">
+      <div class="" role="status">
+        <span class="">Loading...</span>
+      </div>
+    </div>
+
     <div *ngIf="!isLoading">
-      <div *ngFor="let movie of movies; let i = index">
+      <div
+        *ngFor="let movie of movies; let i = index"
+        (click)="onSelectMovie(movie)"
+      >
         <div
-          class="w-full h-full grid p-8 mb-5 bg-[#141414] rounded-lg cursor-pointer transition-all hover:bg-[#3a3a3a]"
+          class="w-full h-full grid p-8 mb-5 bg-[#141414] rounded-lg cursor-pointer transition-transform hover:scale-102 hover:bg-[#3a3a3a]"
         >
           <!-- Movie Image & Description -->
           <div class="grid grid-cols-9 gap-5">
@@ -90,11 +100,14 @@
     </div>
   </section>
 
-  <!-- Movie Preview -->
-  <section>
+  <!-- Movie Modal -->
+  <section
+    *ngIf="showModal"
+    class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/70 transition-opacity duration-300"
+  >
     <div class="relative h-[80vh] w-full">
       <button
-        (click)="showAlert()"
+        (click)="closeBanner()"
         class="relative flex items-center p-4 transition-color z-1 cursor-pointer"
       >
         <svg
@@ -127,6 +140,7 @@
           />
           Your browser does not support the video tag.
         </video> -->
+        <!-- TODO: Fix video HTML element not playable -->
         <iframe
           class="w-full h-full object-cover"
           src="https://www.youtube.com/embed/zSWdZVtXT7E?si=YBBtHbjQtEsWv09H?autoplay=1&mute=1"
@@ -137,18 +151,16 @@
           allowfullscreen
           allow="autoplay; encrypted-media"
         ></iframe>
-
         <div></div>
       </div>
 
       <div class="relative flex items-center h-full mx-20">
         <div class="w-full px-4">
           <h1 class="mb-4 font-bold text-white" style="font-size: 48px">
-            Interstellar
+            {{ selectedMovie?.title }}
           </h1>
           <p class="mb-8 text-xl text-white">
-            A team of explorers travel through a wormhole in space in an attempt
-            to ensure humanity's survival.
+            {{ selectedMovie?.description }}
           </p>
 
           <div class="flex space-x-4">
