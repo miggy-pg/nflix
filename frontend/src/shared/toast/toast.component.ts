@@ -20,12 +20,14 @@ import { ToastService } from '../../services/toast.service';
       state(
         'closed',
         style({
-          opacity: 0,
+          display: 'none',
+          opacity: 100,
         })
       ),
       state(
         'open',
         style({
+          display: 'block',
           opacity: 1,
         })
       ),

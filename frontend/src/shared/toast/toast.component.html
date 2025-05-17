@@ -4,10 +4,8 @@
     class="flex items-start gap-3 w-full max-w-xs p-4 mb-4 rounded-lg shadow-sm transition-all duration-300 ease-in-out"
     [@openClose]="toastService.data?.show ? 'open' : 'closed'"
     [ngClass]="{
-      'text-green-600 bg-green-50 dark:text-green-200 dark:bg-green-800':
-        toastService.data?.type === 'success',
-      'text-red-600 bg-red-50 dark:text-red-200 dark:bg-red-800':
-        toastService.data?.type === 'error'
+      'text-green-600 bg-green-50': toastService.data?.type === 'success',
+      'text-red-600 bg-red-50': toastService.data?.type === 'error'
     }"
     role="alert"
   >
@@ -15,10 +13,8 @@
     <div
       class="flex items-center justify-center w-8 h-8 shrink-0 rounded-full"
       [ngClass]="{
-        'bg-green-100 text-green-600 dark:bg-green-700 dark:text-green-200':
-          toastService.data?.type === 'success',
-        'bg-red-100 text-red-600 dark:bg-red-700 dark:text-red-200':
-          toastService.data?.type === 'error'
+        'bg-green-100 text-green-600': toastService.data?.type === 'success',
+        'bg-red-100 text-red-600': toastService.data?.type === 'error'
       }"
     >
       <svg

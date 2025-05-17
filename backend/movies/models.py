@@ -4,9 +4,7 @@ class Movie(models.Model):
     title = models.CharField(max_length=100, db_index=True)
     description = models.TextField(null=True, blank=True)
     date_added = models.DateField(auto_now_add=True)
-    video_file = models.FileField(
-        blank=True, null=True, default="avatar/default.jpg"
-    )
+    video_file = models.FileField(blank=True, null=True)
 
     class Meta:
         verbose_name = "Movie"

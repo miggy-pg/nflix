@@ -21,6 +21,10 @@ export class HomeComponent {
   selectedMovie: any = null;
   movies: any[] = [];
   isLoading: boolean = true;
+  isPlaying: boolean = false;
+  showInfo = true;
+  showIcon = true;
+  hasInteracted = false;
   showMovieDetailModal: boolean = false;
   showMovieFormModal: boolean = false;
   isEditMode = false;
@@ -40,31 +44,7 @@ export class HomeComponent {
     this.getMovies();
   }
 
-  showToast(toastData: ToastData) {
-    this.toastService.initiate({
-      title: toastData.title,
-      content: toastData.content,
-      type: toastData.type,
-      show: true,
-    });
-  }
-
-  getImagePath(imageName: string): string {
-    return 'assets/img/' + imageName;
-  }
-
-  handleFileInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      this.movieFormData.video_file = input.files[0];
-    }
-  }
-
-  closeModal(): void {
-    this.showMovieDetailModal = false;
-    this.selectedMovie = null;
-    document.body.style.overflow = '';
-  }
+  // ----- Main -----
 
   getMovies(): void {
     this.movieService.getMovies().subscribe({
@@ -79,18 +59,80 @@ export class HomeComponent {
     });
   }
 
+  showToast(toastData: ToastData) {
+    this.toastService.initiate({
+      title: toastData.title,
+      content: toastData.content,
+      type: toastData.type,
+      show: true,
+    });
+  }
+
+  // ----- Video Player Configs -----
+
   onSelectMovie(id: number): void {
     this.movieService.getMovie(id).subscribe({
       next: (movie) => {
         this.selectedMovie = movie;
+        this.isPlaying = true;
+        this.showInfo = true;
+        this.showIcon = false;
       },
       error: (err) => {
         console.error('Error fetching movie:', err);
-        // this.isLoading = false;
       },
     });
+
     this.showMovieDetailModal = true;
     document.body.style.overflow = 'hidden';
+  }
+
+  hideVideoPlayerIcon() {
+    // Hide Play/Pause Video Player Icon
+    this.showIcon = true;
+    setTimeout(() => {
+      this.showIcon = false;
+    }, 800);
+  }
+
+  onPlay(video: HTMLVideoElement) {
+    this.isPlaying = true;
+    this.showInfo = false;
+    this.hasInteracted = true;
+
+    if (video.paused) {
+      video.play();
+      this.isPlaying = true;
+    }
+
+    this.hideVideoPlayerIcon();
+  }
+
+  onPause(video: HTMLVideoElement) {
+    this.isPlaying = false;
+    this.showInfo = true;
+
+    this.hideVideoPlayerIcon();
+  }
+
+  onCloseMovieModal(): void {
+    this.showMovieDetailModal = false;
+    this.selectedMovie = null;
+    this.isPlaying = false;
+    document.body.style.overflow = '';
+  }
+
+  seekToSecond(video: HTMLVideoElement, seconds: number) {
+    video.currentTime = seconds;
+  }
+
+  // ----- CRUD Operations  -----
+
+  handleFileInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      this.movieFormData.video_file = input.files[0];
+    }
   }
 
   submitMovieForm(): void {
@@ -107,6 +149,7 @@ export class HomeComponent {
           this.showToast({
             title: 'Movie Updated',
             content: `"${this.movieFormData.title}" was successfully updated.`,
+            type: 'success',
           });
           this.getMovies();
           this.showMovieFormModal = false;
@@ -119,6 +162,7 @@ export class HomeComponent {
           this.showToast({
             title: 'Movie Added',
             content: `"${this.movieFormData.title}" has been successfully added.`,
+            type: 'success',
           });
           this.getMovies();
           this.showMovieFormModal = false;
@@ -156,6 +200,7 @@ export class HomeComponent {
         this.showToast({
           title: 'Movie Deleted',
           content: `"${title}" has been removed.`,
+          type: 'success',
         });
         this.getMovies();
       },

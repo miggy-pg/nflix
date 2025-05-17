@@ -35,10 +35,29 @@
               </p>
             </div>
             <div class="col-span-2 relative w-full h-28">
-              <img
+              <video
+                #videoRef
+                muted
+                loop
+                preload="metadata"
+                (loadedmetadata)="seekToSecond(videoRef, 2)"
                 class="absolute inset-0 w-full h-full object-cover rounded"
-                src="http://creativereview.imgix.net/content/uploads/2024/12/AlienRomulus-scaled.jpg?auto=compress,format&q=60&w=1728&h=2560"
-              />
+              >
+                <source [src]="movie.video_file" type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+              <!-- Play Icon Overlay -->
+              <div
+                class="absolute inset-0 flex items-center justify-center bg-transparent bg-opacity-30 transition-opacity duration-300 group-hover:bg-opacity-50"
+              >
+                <svg
+                  class="w-16 h-16 text-white opacity-80 hover:opacity-100"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M8 5v14l11-7L8 5z" />
+                </svg>
+              </div>
             </div>
             <div class="col-span-5">
               <p class="text-base text-white mb-3">{{ movie.title }}</p>
@@ -117,66 +136,93 @@
     *ngIf="showMovieDetailModal"
     class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/70 transition-opacity duration-300"
   >
-    <div class="relative h-[80vh] w-full">
-      <button
-        (click)="closeModal()"
-        class="relative flex items-center p-4 transition-color z-1 cursor-pointer"
-      >
-        <svg
-          class="w-6 h-6"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+    <div class="h-[80vh] w-full">
+      <div class="absolute inset-0 flex items-center">
+        <div class="h-full">
+          <!-- Close Modal -->
+          <button
+            (click)="onCloseMovieModal()"
+            class="fixed ml-6 mt-4 flex items-center transition-color z-1 cursor-pointer transition hover:scale-104"
+          >
+            <svg
+              class="w-6 h-6"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9.5 4L2 11.8125L9.5 19.625"
+                stroke="white"
+                stroke-width="1.875"
+                stroke-linecap="square"
+              />
+              <line
+                x1="22"
+                y1="11.8125"
+                x2="2.625"
+                y2="11.8125"
+                stroke="white"
+                stroke-width="1.875"
+              />
+            </svg>
+          </button>
+          <video
+            #selectedVideoRef
+            [attr.controls]="isPlaying ? '' : null"
+            preload="metadata"
+            class="w-screen object-cover h-full"
+            (play)="onPlay(selectedVideoRef)"
+            (pause)="onPause(selectedVideoRef)"
+          >
+            <source
+              src="http://localhost:8000/media/Interstellar_-_Trailer_-_Official_Warner_Bros_gQU6zdn._UK_-_Warner_Bros._UK__Ireland_1080p_h264.mp4"
+              type="video/mp4"
+            />
+            <!-- <source [src]="selectedMovie?.video_file" type="video/mp4" /> -->
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div
+          class="absolute w-fit inset-1/2 flex items-center bg-transparent bg-opacity-30 transition-opacity duration-300 group-hover:bg-opacity-50"
+          [class.opacity-100]="showIcon && hasInteracted"
+          [class.opacity-0]="!showIcon || !hasInteracted"
         >
-          <path
-            d="M9.5 4L2 11.8125L9.5 19.625"
-            stroke="white"
-            stroke-width="1.875"
-            stroke-linecap="square"
-          />
-          <line
-            x1="22"
-            y1="11.8125"
-            x2="2.625"
-            y2="11.8125"
-            stroke="white"
-            stroke-width="1.875"
-          />
-        </svg>
-      </button>
-      <div class="absolute inset-0">
-        <!-- <video controls autoplay muted loop>
-          <source
-            src="/backend/media/Interstellar_-_Trailer_-_Official_Warner_Bros._UK_-_Warner_Bros._UK__Ireland_1080p_h264.mp4"
-            type="video/mp4"
-          />
-          Your browser does not support the video tag.
-        </video> -->
-        <!-- TODO: Fix video HTML element not playable -->
-        <iframe
-          class="w-full h-full object-cover"
-          src="https://www.youtube.com/embed/zSWdZVtXT7E?si=YBBtHbjQtEsWv09H?autoplay=1&mute=1"
-          title="YouTube video player"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen
-          allow="autoplay; encrypted-media"
-        ></iframe>
-        <div></div>
+          <!-- Play Icon -->
+          <svg
+            *ngIf="!isPlaying; else pauseIcon"
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-16 h-16 text-white drop-shadow-md"
+            fill="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path d="M8 5v14l11-7z" />
+          </svg>
+
+          <!-- Pause Icon -->
+          <ng-template #pauseIcon>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="w-16 h-16 text-white drop-shadow-md"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+            </svg>
+          </ng-template>
+        </div>
       </div>
 
-      <div class="relative flex items-center h-full mx-20">
-        <div class="w-full px-4">
+      <div *ngIf="showInfo" class="relative flex items-center w-full h-full">
+        <div class="max-w-xl w-full px-20">
           <h1 class="mb-4 font-bold text-white" style="font-size: 48px">
             {{ selectedMovie?.title }}
           </h1>
-          <p class="mb-8 text-xl text-white">
+          <p class="mb-8 text-xl text-white text-wrap">
             {{ selectedMovie?.description }}
           </p>
-
           <div class="flex space-x-4">
             <button
+              (click)="onPlay(selectedVideoRef)"
               class="w-30 px-8 py-2 flex items-center justify-center gap-3 text-black bg-white rounded cursor-pointer duration-200 hover:bg-white/90"
             >
               <svg
