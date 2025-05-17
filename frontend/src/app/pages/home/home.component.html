@@ -136,14 +136,17 @@
     *ngIf="showMovieDetailModal"
     class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/70 transition-opacity duration-300"
   >
+    <!-- Movie Container -->
     <div class="h-[80vh] w-full">
       <div class="absolute inset-0 flex items-center">
+        <!-- Video Player Container -->
         <div class="h-full">
           <!-- Close Modal -->
           <button
             (click)="onCloseMovieModal()"
             class="fixed ml-6 mt-4 flex items-center transition-color z-1 cursor-pointer transition hover:scale-104"
           >
+            <!-- Close Icon -->
             <svg
               class="w-6 h-6"
               viewBox="0 0 24 24"
@@ -182,6 +185,8 @@
             Your browser does not support the video tag.
           </video>
         </div>
+
+        <!-- Video Player Icon -->
         <div
           class="absolute w-fit inset-1/2 flex items-center bg-transparent bg-opacity-30 transition-opacity duration-300 group-hover:bg-opacity-50"
           [class.opacity-100]="showIcon && hasInteracted"
@@ -212,6 +217,7 @@
         </div>
       </div>
 
+      <!-- Movie Information Container -->
       <div *ngIf="showInfo" class="relative flex items-center w-full h-full">
         <div class="max-w-xl w-full px-20">
           <h1 class="mb-4 font-bold text-white" style="font-size: 48px">
@@ -225,6 +231,7 @@
               (click)="onPlay(selectedVideoRef)"
               class="w-30 px-8 py-2 flex items-center justify-center gap-3 text-black bg-white rounded cursor-pointer duration-200 hover:bg-white/90"
             >
+              <!-- Play Icon -->
               <svg
                 width="16"
                 height="18"
@@ -250,9 +257,11 @@
     class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/50 transition-opacity duration-300"
     *ngIf="showMovieFormModal"
   >
+    <!-- Form Background -->
     <div
       class="flex justify-center items-center w-fit h-110 container mx-auto bg-[#141414] text-white rounded-2xl"
     >
+      <!-- Form Container -->
       <div class="w-full text-white px-2 mx-10 max-w-md">
         <h2 class="text-left font-bold pb-5" style="font-size: 30px">
           {{ isEditMode ? "Edit Movie" : "Add Movie" }}
