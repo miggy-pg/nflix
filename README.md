@@ -18,6 +18,8 @@ Before running this project, make sure you have the following installed:
 - [Docker](https://www.docker.com/products/docker-desktop)
 - [Docker Compose](https://docs.docker.com/compose/install/)
 - [Node.js](https://nodejs.org/) >= 23.x
+- [Redis](https://redis.io/docs/latest/operate/oss_and_stack/install/archive/install-redis/) >= 6
+- [Celery](https://docs.celeryq.dev/en/stable/getting-started/first-steps-with-celery.html) >= 5.x
 - [Python](https://www.python.org/) >= 3.11
 - [npm](https://www.npmjs.com/)
 
