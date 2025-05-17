@@ -131,7 +131,7 @@
     </div>
   </section>
 
-  <!-- Movie Detail Modal -->
+  <!-- Movie Play with Information Modal -->
   <section
     *ngIf="showMovieDetailModal"
     class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/70 transition-opacity duration-300"
@@ -170,23 +170,21 @@
             </svg>
           </button>
           <video
+            [attr.key]="selectedMovie?.id"
             #selectedVideoRef
             [attr.controls]="isPlaying ? '' : null"
             preload="metadata"
             class="w-screen object-cover h-full"
             (play)="onPlay(selectedVideoRef)"
-            (pause)="onPause(selectedVideoRef)"
+            (pause)="onPause()"
+            (loadeddata)="isSelectedMovieLoading = false"
           >
-            <source
-              src="http://localhost:8000/media/Interstellar_-_Trailer_-_Official_Warner_Bros_gQU6zdn._UK_-_Warner_Bros._UK__Ireland_1080p_h264.mp4"
-              type="video/mp4"
-            />
-            <!-- <source [src]="selectedMovie?.video_file" type="video/mp4" /> -->
+            <source [src]="selectedMovie?.video_file" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
         </div>
 
-        <!-- Video Player Icon -->
+        <!-- Video Player Pause/Play Icon -->
         <div
           class="absolute w-fit inset-1/2 flex items-center bg-transparent bg-opacity-30 transition-opacity duration-300 group-hover:bg-opacity-50"
           [class.opacity-100]="showIcon && hasInteracted"

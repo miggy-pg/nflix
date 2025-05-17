@@ -1,4 +1,9 @@
-import { Component } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -14,11 +19,12 @@ import { ToastComponent } from '../../../shared/toast/toast.component';
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
-  toastVisible = false;
-  errorMessage = '';
-  toastMessage = '';
+  toastVisible: boolean = false;
+  errorMessage: string = '';
+  toastMessage: string = '';
   toastType: 'success' | 'error' | 'info' = 'success';
   selectedMovie: any = null;
+  isSelectedMovieLoading: boolean = true;
   movies: any[] = [];
   isLoading: boolean = true;
   isPlaying: boolean = false;
@@ -54,7 +60,7 @@ export class HomeComponent {
       },
       error: (err) => {
         console.error('Error fetching movies:', err);
-        this.isLoading = false;
+        // this.isLoading = false;
       },
     });
   }
@@ -70,21 +76,33 @@ export class HomeComponent {
 
   // ----- Video Player Configs -----
 
+  // Get specific movie data
   onSelectMovie(id: number): void {
+    this.isSelectedMovieLoading = true;
+    this.selectedMovie = null;
+
     this.movieService.getMovie(id).subscribe({
       next: (movie) => {
-        this.selectedMovie = movie;
-        this.isPlaying = true;
-        this.showInfo = true;
-        this.showIcon = false;
+        // delay until modal is visible to ensure DOM mounts cleanly
+        setTimeout(() => {
+          this.selectedMovie = movie;
+          this.showInfo = true;
+          this.showIcon = false;
+          this.showMovieDetailModal = true;
+
+          document.body.style.overflow = 'hidden';
+        }, 0);
       },
       error: (err) => {
         console.error('Error fetching movie:', err);
+        this.showToast({
+          title: 'Error',
+          content: `Failed to get selected movie data.`,
+          type: 'error',
+        });
+        this.isSelectedMovieLoading = false;
       },
     });
-
-    this.showMovieDetailModal = true;
-    document.body.style.overflow = 'hidden';
   }
 
   hideVideoPlayerIcon() {
@@ -96,19 +114,17 @@ export class HomeComponent {
   }
 
   onPlay(video: HTMLVideoElement) {
-    this.isPlaying = true;
+    if (video.paused && !this.isPlaying) {
+      this.isPlaying = true;
+      video.play();
+    }
     this.showInfo = false;
     this.hasInteracted = true;
-
-    if (video.paused) {
-      video.play();
-      this.isPlaying = true;
-    }
 
     this.hideVideoPlayerIcon();
   }
 
-  onPause(video: HTMLVideoElement) {
+  onPause() {
     this.isPlaying = false;
     this.showInfo = true;
 
@@ -154,7 +170,14 @@ export class HomeComponent {
           this.getMovies();
           this.showMovieFormModal = false;
         },
-        error: (err) => console.error(err),
+        error: (err) => {
+          console.error(err);
+          this.showToast({
+            title: 'Error',
+            content: 'Failed to update movie.',
+            type: 'error',
+          });
+        },
       });
     } else {
       this.movieService.createMovie(formData).subscribe({
@@ -167,7 +190,14 @@ export class HomeComponent {
           this.getMovies();
           this.showMovieFormModal = false;
         },
-        error: (err) => console.error(err),
+        error: (err) => {
+          console.error(err);
+          this.showToast({
+            title: 'Error',
+            content: 'Failed to create movie.',
+            type: 'error',
+          });
+        },
       });
     }
   }
