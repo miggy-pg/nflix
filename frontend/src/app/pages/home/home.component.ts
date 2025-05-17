@@ -157,7 +157,7 @@ export class HomeComponent {
     formData.append('description', this.movieFormData.description);
 
     if (this.movieFormData.video_file)
-      formData.append('video', this.movieFormData.video_file);
+      formData.append('video_file', this.movieFormData.video_file);
 
     if (this.isEditMode && this.movieFormData.id !== null) {
       this.movieService.updateMovie(this.movieFormData.id, formData).subscribe({
@@ -180,6 +180,7 @@ export class HomeComponent {
         },
       });
     } else {
+      console.log('movieFormData: ', this.movieFormData);
       this.movieService.createMovie(formData).subscribe({
         next: () => {
           this.showToast({

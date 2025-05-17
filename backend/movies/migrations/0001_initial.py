@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
                 ('title', models.CharField(db_index=True, max_length=100)),
                 ('description', models.TextField(blank=True, null=True)),
                 ('date_added', models.DateField(auto_now_add=True)),
-                ('video_file', models.FileField(blank=True, default='avatar/default.jpg', null=True, upload_to='')),
+                ('video_file', models.FileField(blank=True, null=True, upload_to='')),
             ],
         ),
     ]

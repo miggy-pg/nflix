@@ -12,6 +12,9 @@ services:
       - ./backend/.env
     depends_on:
       - db
+      - redis
+    networks:
+      - nflix-network
 
   frontend:
     build:
@@ -22,6 +25,8 @@ services:
     command: npm run start
     ports:
       - "4200:4200"
+    networks:
+      - nflix-network
 
   db:
     image: postgres:15
@@ -31,12 +36,33 @@ services:
       POSTGRES_PASSWORD: postgres
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks:
+      - nflix-network
+
+  celery:
+    build: ./backend
+    command: celery -A backend worker --loglevel=info
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - frontend
+      - redis
+    environment:
+      - DJANGO_SETTINGS_MODULE=backend.settings
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    networks:
+      - nflix-network
 
   redis:
     image: redis:6
-    container_name: redis
     ports:
       - "6379:6379"
+    networks:
+      - nflix-network
 
 volumes:
   pgdata:
+
+networks:
+  nflix-network:

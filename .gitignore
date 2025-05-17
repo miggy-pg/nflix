@@ -8,7 +8,7 @@ staticfiles/
 db.sqlite3
 
 # === Environment Files ===
-.env
+# .env
 
 # === VSCode/IDE ===
 .vscode/

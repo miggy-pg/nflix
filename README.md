@@ -1,12 +1,11 @@
 # 🎬 NFlix
 
-A full-stack web application for uploading, viewing, and managing movies. Built with **Angular**, **Django**, **PostgreSQL**, and **Docker**. Authentication is handled via **JWT**.
+A full-stack web application for uploading, viewing, and managing movies. Built with **Angular**, **Django**, **PostgreSQL**, and **Docker**.
 
 ## 🧰 Tech Stack
 
 - **Frontend:** Angular, TailwindCSS
 - **Backend:** Django, Django REST Framework
-- **Auth:** JWT (JSON Web Tokens)
 - **Database:** PostgreSQL
 - **Deployment:** Docker, docker-compose
 
@@ -52,10 +51,6 @@ npm run start
 # The frontend will be available at:
 # http://localhost:4200
 ```
-
----
-
-## 🔐 Authentication (JWT)
 
 ---
 

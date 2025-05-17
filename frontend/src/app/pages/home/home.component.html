@@ -40,8 +40,8 @@
                 muted
                 loop
                 preload="metadata"
-                (loadedmetadata)="seekToSecond(videoRef, 2)"
                 class="absolute inset-0 w-full h-full object-cover rounded"
+                [poster]="movie.thumbnail || '/assets/img/default.jpg'"
               >
                 <source [src]="movie.video_file" type="video/mp4" />
                 Your browser does not support the video tag.

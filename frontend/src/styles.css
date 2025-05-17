@@ -8,19 +8,6 @@
   list-style-type: none;
 }
 
-/* bg = grey 850
-    videobg = grey900
-    videobg-active = #fff
-
-*/
 body {
   background-color: #232323;
-}
-
-.cb {
-  border: 1px solid red;
-}
-
-.cg {
-  border: 1px solid green;
 }

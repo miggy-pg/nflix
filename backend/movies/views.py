@@ -6,6 +6,7 @@ from rest_framework.exceptions import MethodNotAllowed
 
 from .models import Movie
 from .serializers import MovieSerializer 
+from .tasks import generate_thumbnail
 
 
 class MovieViewSet(viewsets.ModelViewSet):
@@ -30,7 +31,10 @@ class MovieViewSet(viewsets.ModelViewSet):
         responses={201: MovieSerializer},
     )
     def create(self, request, *args, **kwargs):
-        return super().create(request, *args, **kwargs)
+        response = super().create(request, *args, **kwargs)
+        movie_id = response.data['id']
+        generate_thumbnail.delay(movie_id)
+        return response
     
     @swagger_auto_schema(auto_schema=None)
     def partial_update(self, request, *args, **kwargs):
