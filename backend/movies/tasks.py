@@ -19,7 +19,7 @@ def generate_thumbnail(movie_id):
 
         ff = FFmpeg(
             inputs={input_path: None},
-            outputs={output_path: ['-ss', '00:00:04', '-vframes', '1']}
+            outputs={output_path: ['-ss', '00:00:12', '-vframes', '1']}
         )
         ff.run()
 

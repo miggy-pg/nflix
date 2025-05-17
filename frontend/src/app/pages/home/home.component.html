@@ -20,110 +20,115 @@
       <div *ngIf="movies.length === 0 && !errorMessage" class="text-red-500">
         No movies available.
       </div>
-      <div
-        *ngFor="let movie of movies; let i = index"
-        (click)="onSelectMovie(movie.id)"
-      >
+      <div class="max-h-148 overflow-y-auto space-y-4 px-4 py-2">
         <div
-          class="w-full h-full grid p-8 mb-5 bg-[#141414] rounded-lg cursor-pointer transition-transform hover:scale-102 hover:bg-[#3a3a3a]"
+          *ngFor="let movie of movies; let i = index"
+          (click)="onSelectMovie(movie.id)"
         >
-          <!-- Movie Number, Image & Description -->
-          <div class="grid grid-cols-9 gap-5">
-            <div class="col-span-1 flex justify-center items-center">
-              <p class="text-[#dcdcdc] ml-5" style="font-size: 40px">
-                {{ i + 1 }}
-              </p>
-            </div>
-            <div class="col-span-2 relative w-full h-28">
-              <video
-                #videoRef
-                muted
-                loop
-                preload="metadata"
-                class="absolute inset-0 w-full h-full object-cover rounded"
-                [poster]="movie.thumbnail || '/assets/img/default.jpg'"
-              >
-                <source [src]="movie.video_file" type="video/mp4" />
-                Your browser does not support the video tag.
-              </video>
-              <!-- Play Icon Overlay -->
-              <div
-                class="absolute inset-0 flex items-center justify-center bg-transparent bg-opacity-30 transition-opacity duration-300 group-hover:bg-opacity-50"
-              >
-                <svg
-                  class="w-16 h-16 text-white opacity-80 hover:opacity-100"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M8 5v14l11-7L8 5z" />
-                </svg>
+          <div
+            class="w-full h-full grid p-8 mb-5 bg-[#141414] rounded-lg cursor-pointer transition-transform hover:scale-102 hover:bg-[#3a3a3a]"
+          >
+            <!-- Movie Number, Image & Description -->
+            <div class="grid grid-cols-9 gap-5">
+              <div class="col-span-1 flex justify-center items-center">
+                <p class="text-[#dcdcdc] ml-5" style="font-size: 40px">
+                  {{ i + 1 }}
+                </p>
               </div>
-            </div>
-            <div class="col-span-5">
-              <p class="text-base text-white mb-3">{{ movie.title }}</p>
-              <p class="text-sm text-[#d2d2d2]">
-                {{ movie.description }}
-              </p>
-            </div>
-
-            <!-- Movie Title & Button Events -->
-            <div class="flex items-center gap-2">
-              <!-- Edit Button -->
-              <button
-                class="w-9 h-9"
-                (click)="editMovie(movie); $event.stopPropagation()"
-              >
-                <svg
-                  class="duration-200 cursor-pointer fill-white opacity-50 transition-all hover:fill-white hover:opacity-100 hover:scale-110"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
+              <div class="col-span-2 relative w-full h-28">
+                <video
+                  #videoRef
+                  muted
+                  loop
+                  preload="metadata"
+                  class="absolute inset-0 w-full h-full object-cover rounded"
+                  [poster]="movie.thumbnail || '/assets/img/default.jpg'"
                 >
-                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                  <g
-                    id="SVGRepo_tracerCarrier"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></g>
-                  <g id="SVGRepo_iconCarrier">
-                    <path
-                      d="M12.5,10.2071068 L8,14.7071068 L8,16 L9.29289322,16 L13.7928932,11.5 L12.5,10.2071068 Z M13.2071068,9.5 L14.5,10.7928932 L15.7928932,9.5 L14.5,8.20710678 L13.2071068,9.5 Z M12,22 C6.4771525,22 2,17.5228475 2,12 C2,6.4771525 6.4771525,2 12,2 C17.5228475,2 22,6.4771525 22,12 C22,17.5228475 17.5228475,22 12,22 Z M12,21 C16.9705627,21 21,16.9705627 21,12 C21,7.02943725 16.9705627,3 12,3 C7.02943725,3 3,7.02943725 3,12 C3,16.9705627 7.02943725,21 12,21 Z M14.8535534,7.14644661 L16.8535534,9.14644661 C17.0488155,9.34170876 17.0488155,9.65829124 16.8535534,9.85355339 L9.85355339,16.8535534 C9.7597852,16.9473216 9.63260824,17 9.5,17 L7.5,17 C7.22385763,17 7,16.7761424 7,16.5 L7,14.5 C7,14.3673918 7.05267842,14.2402148 7.14644661,14.1464466 L14.1464466,7.14644661 C14.3417088,6.95118446 14.6582912,6.95118446 14.8535534,7.14644661 Z"
-                    ></path>
-                  </g>
-                </svg>
-              </button>
-
-              <!-- Delete Button -->
-              <button
-                class="w-9 h-9"
-                (click)="
-                  deleteMovie(movie.id, movie.title); $event.stopPropagation()
-                "
-              >
-                <svg
-                  viewBox="0 0 1024 1024"
-                  class="duration-200 cursor-pointer fill-white opacity-50 transition-all hover:fill-white hover:opacity-100 hover:scale-110"
-                  version="1.1"
-                  xmlns="http://www.w3.org/2000/svg"
+                  <source [src]="movie.video_file" type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+                <!-- Play Icon Overlay -->
+                <div
+                  class="absolute inset-0 flex items-center justify-center bg-transparent bg-opacity-30 transition-opacity duration-300 group-hover:bg-opacity-50"
                 >
-                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                  <g
-                    id="SVGRepo_tracerCarrier"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></g>
-                  <g id="SVGRepo_iconCarrier">
-                    <path
-                      d="M512 897.6c-108 0-209.6-42.4-285.6-118.4-76-76-118.4-177.6-118.4-285.6 0-108 42.4-209.6 118.4-285.6 76-76 177.6-118.4 285.6-118.4 108 0 209.6 42.4 285.6 118.4 157.6 157.6 157.6 413.6 0 571.2-76 76-177.6 118.4-285.6 118.4z m0-760c-95.2 0-184.8 36.8-252 104-67.2 67.2-104 156.8-104 252s36.8 184.8 104 252c67.2 67.2 156.8 104 252 104 95.2 0 184.8-36.8 252-104 139.2-139.2 139.2-364.8 0-504-67.2-67.2-156.8-104-252-104z"
-                      fill=""
-                    ></path>
-                    <path
-                      d="M707.872 329.392L348.096 689.16l-31.68-31.68 359.776-359.768z"
-                      fill=""
-                    ></path>
-                    <path d="M328 340.8l32-31.2 348 348-32 32z" fill=""></path>
-                  </g>
-                </svg>
-              </button>
+                  <svg
+                    class="w-16 h-16 text-white opacity-80 hover:opacity-100"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M8 5v14l11-7L8 5z" />
+                  </svg>
+                </div>
+              </div>
+              <div class="col-span-5">
+                <p class="text-base text-white mb-3">{{ movie.title }}</p>
+                <p class="text-sm text-[#d2d2d2]">
+                  {{ movie.description }}
+                </p>
+              </div>
+
+              <!-- Movie Title & Button Events -->
+              <div class="flex items-center gap-2">
+                <!-- Edit Button -->
+                <button
+                  class="w-9 h-9"
+                  (click)="editMovie(movie); $event.stopPropagation()"
+                >
+                  <svg
+                    class="duration-200 cursor-pointer fill-white opacity-50 transition-all hover:fill-white hover:opacity-100 hover:scale-110"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g
+                      id="SVGRepo_tracerCarrier"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></g>
+                    <g id="SVGRepo_iconCarrier">
+                      <path
+                        d="M12.5,10.2071068 L8,14.7071068 L8,16 L9.29289322,16 L13.7928932,11.5 L12.5,10.2071068 Z M13.2071068,9.5 L14.5,10.7928932 L15.7928932,9.5 L14.5,8.20710678 L13.2071068,9.5 Z M12,22 C6.4771525,22 2,17.5228475 2,12 C2,6.4771525 6.4771525,2 12,2 C17.5228475,2 22,6.4771525 22,12 C22,17.5228475 17.5228475,22 12,22 Z M12,21 C16.9705627,21 21,16.9705627 21,12 C21,7.02943725 16.9705627,3 12,3 C7.02943725,3 3,7.02943725 3,12 C3,16.9705627 7.02943725,21 12,21 Z M14.8535534,7.14644661 L16.8535534,9.14644661 C17.0488155,9.34170876 17.0488155,9.65829124 16.8535534,9.85355339 L9.85355339,16.8535534 C9.7597852,16.9473216 9.63260824,17 9.5,17 L7.5,17 C7.22385763,17 7,16.7761424 7,16.5 L7,14.5 C7,14.3673918 7.05267842,14.2402148 7.14644661,14.1464466 L14.1464466,7.14644661 C14.3417088,6.95118446 14.6582912,6.95118446 14.8535534,7.14644661 Z"
+                      ></path>
+                    </g>
+                  </svg>
+                </button>
+
+                <!-- Delete Button -->
+                <button
+                  class="w-9 h-9"
+                  (click)="
+                    deleteMovie(movie.id, movie.title); $event.stopPropagation()
+                  "
+                >
+                  <svg
+                    viewBox="0 0 1024 1024"
+                    class="duration-200 cursor-pointer fill-white opacity-50 transition-all hover:fill-white hover:opacity-100 hover:scale-110"
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g
+                      id="SVGRepo_tracerCarrier"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></g>
+                    <g id="SVGRepo_iconCarrier">
+                      <path
+                        d="M512 897.6c-108 0-209.6-42.4-285.6-118.4-76-76-118.4-177.6-118.4-285.6 0-108 42.4-209.6 118.4-285.6 76-76 177.6-118.4 285.6-118.4 108 0 209.6 42.4 285.6 118.4 157.6 157.6 157.6 413.6 0 571.2-76 76-177.6 118.4-285.6 118.4z m0-760c-95.2 0-184.8 36.8-252 104-67.2 67.2-104 156.8-104 252s36.8 184.8 104 252c67.2 67.2 156.8 104 252 104 95.2 0 184.8-36.8 252-104 139.2-139.2 139.2-364.8 0-504-67.2-67.2-156.8-104-252-104z"
+                        fill=""
+                      ></path>
+                      <path
+                        d="M707.872 329.392L348.096 689.16l-31.68-31.68 359.776-359.768z"
+                        fill=""
+                      ></path>
+                      <path
+                        d="M328 340.8l32-31.2 348 348-32 32z"
+                        fill=""
+                      ></path>
+                    </g>
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -170,18 +175,22 @@
             </svg>
           </button>
           <video
+            *ngIf="selectedMovie?.video_file"
             [attr.key]="selectedMovie?.id"
             #selectedVideoRef
             [attr.controls]="isPlaying ? '' : null"
             preload="metadata"
             class="w-screen object-cover h-full"
-            (play)="onPlay(selectedVideoRef)"
+            (play)="onPlay()"
             (pause)="onPause()"
             (loadeddata)="isSelectedMovieLoading = false"
           >
             <source [src]="selectedMovie?.video_file" type="video/mp4" />
             Your browser does not support the video tag.
           </video>
+          <div
+            class="absolute w-fit inset-1/2 flex items-center bg-transparent bg-opacity-30 transition-opacity duration-300 group-hover:bg-opacity-50"
+          ></div>
         </div>
 
         <!-- Video Player Pause/Play Icon -->
@@ -226,8 +235,13 @@
           </p>
           <div class="flex space-x-4">
             <button
-              (click)="onPlay(selectedVideoRef)"
-              class="w-30 px-8 py-2 flex items-center justify-center gap-3 text-black bg-white rounded cursor-pointer duration-200 hover:bg-white/90"
+              [disabled]="!selectedMovie?.video_file"
+              (click)="onPlay()"
+              [ngClass]="{
+                'cursor-pointer': selectedMovie?.video_file,
+                'cursor-not-allowed opacity-50': !selectedMovie?.video_file
+              }"
+              class="w-30 px-8 py-2 flex items-center justify-center gap-3 text-black bg-white rounded duration-200 hover:bg-white/90"
             >
               <!-- Play Icon -->
               <svg

@@ -41,6 +41,9 @@ export class HomeComponent {
     video_file: null as File | null,
   };
 
+  @ViewChild('selectedVideoRef')
+  selectedVideoRef!: ElementRef<HTMLVideoElement>;
+
   constructor(
     private movieService: MovieService,
     public toastService: ToastService
@@ -113,11 +116,16 @@ export class HomeComponent {
     }, 800);
   }
 
-  onPlay(video: HTMLVideoElement) {
-    if (video.paused && !this.isPlaying) {
+  onPlay() {
+    // if (video.paused && !this.isPlaying) {
+    //   this.isPlaying = true;
+    //   video.play();
+    // }
+    if (this.selectedVideoRef?.nativeElement) {
+      this.selectedVideoRef.nativeElement.play();
       this.isPlaying = true;
-      video.play();
     }
+
     this.showInfo = false;
     this.hasInteracted = true;
 
