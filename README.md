@@ -68,13 +68,15 @@ npm run start
 
 ---
 
-## 🐞 Known Issues or Limitations
-
----
-
 ## 🙌 Contributing
 
-We welcome contributions! Please fork this repo, open a PR, or file an issue.
+Contributions are welcomed! To contribute to the Lanao del Norte Tourism Guide:
+
+1. Fork the repository.
+2. Create a new branch: `git checkout -b feature/your-feature-name`
+3. Make your changes and commit them: `git commit -m "Add some feature"`
+4. Push to your forked repository: `git push origin feature/your-feature-name`
+5. Create a pull request.
 
 ---
 
