@@ -159,7 +159,7 @@ export class HomeComponent {
   }
 
   submitMovieForm(): void {
-    if (!this.movieFormData.video_file) {
+    if (!this.movieFormData.video_file && !this.isEditMode) {
       this.showToast({
         title: 'Error',
         content: 'Video is required in adding new movie.',
@@ -205,7 +205,6 @@ export class HomeComponent {
         },
       });
     } else {
-      console.log('movieFormData: ', this.movieFormData);
       this.movieService.createMovie(formData).subscribe({
         next: () => {
           this.showToast({
