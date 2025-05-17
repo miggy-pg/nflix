@@ -52,6 +52,11 @@ class MovieViewSet(viewsets.ModelViewSet):
         responses={200: MovieSerializer},
     )
     def update(self, request, *args, **kwargs):
+        video_file = request.data['video_file']
+        print("request.data: ", request.data)
+        if video_file:
+            movie_id = request.data['id']
+            generate_thumbnail.delay(movie_id)
         return super().update(request, *args, **kwargs)
 
     @swagger_auto_schema(
