@@ -52,7 +52,10 @@ class MovieViewSet(viewsets.ModelViewSet):
         responses={200: MovieSerializer},
     )
     def update(self, request, *args, **kwargs):
-        return super().update(request, *args, **kwargs)
+        response = super().update(request, *args, **kwargs)
+        movie_id = response.data['id']
+        generate_thumbnail.delay(movie_id)
+        return response
 
     @swagger_auto_schema(
         operation_description="Delete a specific movie instance.",
