@@ -301,14 +301,15 @@
           ></textarea>
           <input
             type="file"
+            name="video"
             required
             (change)="handleFileInput($event)"
-            placeholder="Video"
             class="w-full bg-black px-4 py-3 rounded border"
           />
+
           <button
             type="submit"
-            class="w-full bg-[#E50814] text-white cursor-pointer py-3 font-medium duration-200 rounded mb-3 hover:bg-[#C11119]"
+            class="w-full bg-[#E50814] text-white py-3 cursor-pointer font-medium duration-200 rounded mb-3"
           >
             {{ isEditMode ? "Update" : "Add" }}
           </button>

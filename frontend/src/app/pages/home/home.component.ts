@@ -28,6 +28,7 @@ export class HomeComponent {
   movies: any[] = [];
   isLoading: boolean = true;
   isPlaying: boolean = false;
+  isFileValid = false;
   showInfo = true;
   showIcon = true;
   hasInteracted = false;
@@ -117,10 +118,6 @@ export class HomeComponent {
   }
 
   onPlay() {
-    // if (video.paused && !this.isPlaying) {
-    //   this.isPlaying = true;
-    //   video.play();
-    // }
     if (this.selectedVideoRef?.nativeElement) {
       this.selectedVideoRef.nativeElement.play();
       this.isPlaying = true;
@@ -154,12 +151,32 @@ export class HomeComponent {
 
   handleFileInput(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
+    if (input.files && input.files.length > 0) {
       this.movieFormData.video_file = input.files[0];
+    } else {
+      this.movieFormData.video_file = null;
     }
   }
 
   submitMovieForm(): void {
+    if (!this.movieFormData.video_file) {
+      this.showToast({
+        title: 'Error',
+        content: 'Video is required in adding new movie.',
+        type: 'error',
+      });
+      return;
+    }
+
+    if (!this.movieFormData.title) {
+      this.showToast({
+        title: 'Error',
+        content: 'Title is required in adding new movie.',
+        type: 'error',
+      });
+      return;
+    }
+
     const formData = new FormData();
     formData.append('title', this.movieFormData.title);
     formData.append('description', this.movieFormData.description);
