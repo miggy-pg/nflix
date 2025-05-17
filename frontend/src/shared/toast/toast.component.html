@@ -1,0 +1,65 @@
+<div class="toast_wrapper fixed bottom-4 right-4 z-50">
+  <div
+    [id]="'toast-' + toastService.data?.type"
+    class="flex items-start gap-3 w-full max-w-xs p-4 mb-4 rounded-lg shadow-sm transition-all duration-300 ease-in-out"
+    [@openClose]="toastService.data?.show ? 'open' : 'closed'"
+    [ngClass]="{
+      'text-green-600 bg-green-50 dark:text-green-200 dark:bg-green-800':
+        toastService.data?.type === 'success',
+      'text-red-600 bg-red-50 dark:text-red-200 dark:bg-red-800':
+        toastService.data?.type === 'error'
+    }"
+    role="alert"
+  >
+    <!-- Icon -->
+    <div
+      class="flex items-center justify-center w-8 h-8 shrink-0 rounded-full"
+      [ngClass]="{
+        'bg-green-100 text-green-600 dark:bg-green-700 dark:text-green-200':
+          toastService.data?.type === 'success',
+        'bg-red-100 text-red-600 dark:bg-red-700 dark:text-red-200':
+          toastService.data?.type === 'error'
+      }"
+    >
+      <svg
+        class="w-5 h-5"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="currentColor"
+        viewBox="0 0 20 20"
+      >
+        <ng-container *ngIf="toastService.data?.type === 'success'">
+          <path
+            d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"
+          />
+        </ng-container>
+        <ng-container *ngIf="toastService.data?.type === 'error'">
+          <path
+            fill-rule="evenodd"
+            d="M18 10A8 8 0 1 1 2 10a8 8 0 0 1 16 0ZM9 7a1 1 0 0 1 2 0v2a1 1 0 1 1-2 0V7Zm1 8a1.25 1.25 0 1 1 0-2.5A1.25 1.25 0 0 1 10 15Z"
+            clip-rule="evenodd"
+          />
+        </ng-container>
+      </svg>
+    </div>
+
+    <!-- Content -->
+    <div class="flex-1 text-sm font-medium">
+      <h3 class="font-semibold mb-1">
+        {{ toastService.data?.title }}
+      </h3>
+      <p>
+        {{ toastService.data?.content }}
+      </p>
+    </div>
+
+    <!-- Close Button -->
+    <button
+      type="button"
+      class="text-xl leading-none p-1 rounded cursor-pointer hover:bg-black/10"
+      aria-label="Close"
+      (click)="toastService.hide()"
+    >
+      ×
+    </button>
+  </div>
+</div>

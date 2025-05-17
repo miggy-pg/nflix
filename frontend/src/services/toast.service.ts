@@ -1,22 +1,36 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
+
+export interface ToastData {
+  title: string;
+  content: string;
+  show?: boolean;
+  type?: 'success' | 'error';
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class ToastService {
-  toasts: { message: string; duration: number; type: 'success' | 'error' }[] =
-    [];
+  data: ToastData = {
+    title: '',
+    content: '',
+    type: 'success',
+    show: false,
+  };
 
-  add(
-    message: string,
-    duration: number = 3000,
-    type: 'success' | 'error' = 'success'
-  ) {
-    this.toasts.push({ message, duration, type });
-    setTimeout(() => this.remove(0), duration);
+  open = new Subject<ToastData>();
+
+  initiate(data: ToastData) {
+    this.data = {
+      ...data,
+      type: data.type ?? 'error',
+    };
+    this.open.next(this.data);
   }
 
-  remove(index: number) {
-    this.toasts.splice(index, 1);
+  hide() {
+    this.data = { ...this.data, show: false };
+    this.open.next(this.data);
   }
 }

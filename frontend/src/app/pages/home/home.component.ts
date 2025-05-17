@@ -3,17 +3,19 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { MovieService } from '../../../services/movie.service';
-import { ToastService } from '../../../services/toast.service';
+import { ToastData, ToastService } from '../../../services/toast.service';
 import { SpinnerComponent } from '../../../shared/spinner/spinner.component';
+import { ToastComponent } from '../../../shared/toast/toast.component';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule, FormsModule, SpinnerComponent],
+  imports: [CommonModule, FormsModule, SpinnerComponent, ToastComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
   toastVisible = false;
+  errorMessage = '';
   toastMessage = '';
   toastType: 'success' | 'error' | 'info' = 'success';
   selectedMovie: any = null;
@@ -38,8 +40,13 @@ export class HomeComponent {
     this.getMovies();
   }
 
-  showToast() {
-    this.toastService.add('This is a toast message.');
+  showToast(toastData: ToastData) {
+    this.toastService.initiate({
+      title: toastData.title,
+      content: toastData.content,
+      type: toastData.type,
+      show: true,
+    });
   }
 
   getImagePath(imageName: string): string {
@@ -97,7 +104,10 @@ export class HomeComponent {
     if (this.isEditMode && this.movieFormData.id !== null) {
       this.movieService.updateMovie(this.movieFormData.id, formData).subscribe({
         next: () => {
-          alert('Movie updated!');
+          this.showToast({
+            title: 'Movie Updated',
+            content: `"${this.movieFormData.title}" was successfully updated.`,
+          });
           this.getMovies();
           this.showMovieFormModal = false;
         },
@@ -106,7 +116,10 @@ export class HomeComponent {
     } else {
       this.movieService.createMovie(formData).subscribe({
         next: () => {
-          alert('Movie created!');
+          this.showToast({
+            title: 'Movie Added',
+            content: `"${this.movieFormData.title}" has been successfully added.`,
+          });
           this.getMovies();
           this.showMovieFormModal = false;
         },
@@ -137,11 +150,13 @@ export class HomeComponent {
     this.showMovieFormModal = true;
   }
 
-  deleteMovie(id: number) {
-    console.log('deleted: ', id);
+  deleteMovie(id: number, title: string) {
     return this.movieService.deleteMovie(id).subscribe({
       next: () => {
-        this.showToast();
+        this.showToast({
+          title: 'Movie Deleted',
+          content: `"${title}" has been removed.`,
+        });
         this.getMovies();
       },
     });

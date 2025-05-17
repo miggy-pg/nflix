@@ -1,4 +1,6 @@
 <div>
+  <app-toast></app-toast>
+
   <section class="mx-auto max-w-4xl w-full h-full my-20 rounded">
     <div class="mb-6">
       <button
@@ -15,6 +17,9 @@
     </div>
 
     <div *ngIf="!isLoading">
+      <div *ngIf="movies.length === 0 && !errorMessage" class="text-red-500">
+        No movies available.
+      </div>
       <div
         *ngFor="let movie of movies; let i = index"
         (click)="onSelectMovie(movie.id)"
@@ -22,7 +27,7 @@
         <div
           class="w-full h-full grid p-8 mb-5 bg-[#141414] rounded-lg cursor-pointer transition-transform hover:scale-102 hover:bg-[#3a3a3a]"
         >
-          <!-- Movie Image & Description -->
+          <!-- Movie Number, Image & Description -->
           <div class="grid grid-cols-9 gap-5">
             <div class="col-span-1 flex justify-center items-center">
               <p class="text-[#dcdcdc] ml-5" style="font-size: 40px">
@@ -42,7 +47,7 @@
               </p>
             </div>
 
-            <!-- Movie Title & Action Events -->
+            <!-- Movie Title & Button Events -->
             <div class="flex items-center gap-2">
               <!-- Edit Button -->
               <button
@@ -71,7 +76,9 @@
               <!-- Delete Button -->
               <button
                 class="w-9 h-9"
-                (click)="deleteMovie(movie.id); $event.stopPropagation()"
+                (click)="
+                  deleteMovie(movie.id, movie.title); $event.stopPropagation()
+                "
               >
                 <svg
                   viewBox="0 0 1024 1024"
@@ -105,7 +112,7 @@
     </div>
   </section>
 
-  <!-- Movie Modal -->
+  <!-- Movie Detail Modal -->
   <section
     *ngIf="showMovieDetailModal"
     class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/70 transition-opacity duration-300"
@@ -192,7 +199,7 @@
     </div>
   </section>
 
-  <!-- Create Movie Modal -->
+  <!-- Create/Edit Movie Modal -->
   <div
     class="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-black/50 transition-opacity duration-300"
     *ngIf="showMovieFormModal"

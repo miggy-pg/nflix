@@ -1,0 +1,10 @@
+.toast_wrapper {
+  border-radius: 4px;
+  position: fixed;
+  z-index: 100;
+  bottom: 24px;
+  right: 40px;
+  min-width: 380px;
+  max-width: 420px;
+  word-break: break-word;
+}
