@@ -42,7 +42,7 @@ cd nflix
 docker-compose up --build
 
 # The backend API will be available at:
-http://localhost:8000
+# http://localhost:8000
 ```
 
 ### 🌐 Frontend (Angular)
@@ -74,7 +74,7 @@ npm run start
 
 ## 🙌 Contributing
 
-Contributions are welcomed! To contribute to the Lanao del Norte Tourism Guide:
+Contributions are welcomed! To contribute to NFlix:
 
 1. Fork the repository.
 2. Create a new branch: `git checkout -b feature/your-feature-name`
