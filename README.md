@@ -2,6 +2,10 @@
 
 A full-stack web application for uploading, viewing, and managing movies. Built with **Angular**, **Django**, **PostgreSQL**, and **Docker**.
 
+## Demo Video
+
+https://www.dropbox.com/scl/fi/c0ey2yrfo6u5vhi5exmm3/NFlix-Website-Review-Demo-Video.mkv?rlkey=u9gozy7nh3dq8c8r8q950fb8f&st=ofa4g0jb&dl=0
+
 ## 🧰 Tech Stack
 
 - **Frontend:** Angular, TailwindCSS

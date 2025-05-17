@@ -181,8 +181,9 @@ export class HomeComponent {
     formData.append('title', this.movieFormData.title);
     formData.append('description', this.movieFormData.description);
 
-    if (this.movieFormData.video_file)
+    if (this.movieFormData.video_file) {
       formData.append('video_file', this.movieFormData.video_file);
+    }
 
     if (this.movieFormData.id)
       formData.append('id', String(this.movieFormData.id));
